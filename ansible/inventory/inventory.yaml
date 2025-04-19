@@ -1,0 +1,60 @@
+---
+all:
+  children:
+    gateway:
+      hosts:
+        pi-gateway:
+          ansible_host: 192.168.1.1
+          ansible_user: pi
+          node_role: gateway
+          hostname: pi-gateway
+          mac_address: "dc:a6:32:xx:xx:xx"
+    
+    k3s_cluster:
+      children:
+        k3s_control_plane:
+          hosts:
+            pi-master-01:
+              ansible_host: 192.168.1.101
+              ansible_user: pi
+              node_role: master
+              hostname: pi-master-01
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+            pi-master-02:
+              ansible_host: 192.168.1.102
+              ansible_user: pi
+              node_role: master
+              hostname: pi-master-02
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+            pi-master-03:
+              ansible_host: 192.168.1.103
+              ansible_user: pi
+              node_role: master
+              hostname: pi-master-03
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+        k3s_worker_nodes:
+          hosts:
+            pi-worker-01:
+              ansible_host: 192.168.1.111
+              ansible_user: pi
+              node_role: worker
+              hostname: pi-worker-01
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+            pi-worker-02:
+              ansible_host: 192.168.1.112
+              ansible_user: pi
+              node_role: worker
+              hostname: pi-worker-02
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    k3s_version: v1.27.5+k3s1
+    k3s_token: "your-secret-token"  # In production, use Ansible Vault for this
+    k3s_server_location: https://192.168.1.101:6443
+    pod_network_cidr: 10.244.0.0/16
+    service_cidr: 10.96.0.0/12

@@ -2,6 +2,12 @@
 
 A fully ARM64 Kubernetes homelab using Raspberry Pi nodes, automated with Ansible and FluxCD.
 
+This project is the continuation of what is mentioned on my projects section of my LinkedIn profile:
+
+https://www.linkedin.com/in/lfdesousa
+
+To be more precise the the project at the University of Liverpool.
+
 ![Kubernetes Logo](https://kubernetes.io/images/favicon.png) 
 
 ## Project Overview

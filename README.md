@@ -10,6 +10,14 @@ This project documents and automates the creation of a lightweight Kubernetes (K
 
 The entire cluster setup—from initial OS installation to deploying core services and applications—is automated using Ansible for provisioning and FluxCD for continuous delivery.
 
+## Architecture
+
+### Network Topology
+
+Our cluster network architecture is designed with separation between management and cluster networks.
+
+[View Network Topology Diagram](docs/architecture/network.md)
+
 ### Key Features
 
 - **Pure ARM64 Architecture**: Built entirely on ARM64 Raspberry Pi devices for a homogeneous computing environment

@@ -23,6 +23,10 @@ graph TD
         Worker2[Worker Node 2]
         Worker3[Worker Node 3]
     end
+
+    subgraph Security["Security Nodes (10.0.0.12X)"]
+        PiSecurity[pi-security-01]
+    end
     
     ISP -- WAN Connection --> Linksys
     Mobile -. Alternative WAN .- Linksys
@@ -30,10 +34,11 @@ graph TD
     Linksys -- NAT --> Switch
     Switch --> Master1 & Master2 & Master3
     Switch --> Worker1 & Worker2 & Worker3
+    Switch --> PiSecurity
    
-    ```
+```
 
-    ## Router Configuration Automation
+## Router Configuration Automation
 
 For convenience, a shell script has been created to automate the OpenWRT router configuration steps described above. This script handles:
 

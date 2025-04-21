@@ -1,0 +1,10 @@
+# Fallback configuration for DHCP
+# Copy to /etc/netplan/50-cloud-init.yaml to revert to DHCP addressing
+
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: true
+      optional: true

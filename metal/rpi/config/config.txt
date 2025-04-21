@@ -1,0 +1,22 @@
+# Raspberry Pi configuration for server workloads
+
+# Reduce GPU memory allocation to 16MB (server optimized)
+gpu_mem=16
+
+# Disable Bluetooth to save power
+dtoverlay=disable-bt
+
+# Enable hardware watchdog
+dtparam=watchdog=on
+
+# Enable I2C for hardware monitoring (optional)
+dtparam=i2c_arm=on
+
+# Set USB port power to max
+max_usb_current=1
+
+# Enable boot from USB
+program_usb_boot_mode=1
+
+# Enable hardware random number generator
+dtparam=random=on

@@ -1,0 +1,59 @@
+#cloud-config
+
+# Repartition and resize disk on first boot
+# This will create a single large partition using all available disk space
+
+# Set bootcmd to run after cloud-init processes the SSD partitioning 
+bootcmd:
+  - |
+    if [ -e /root/resize-done ]; then
+      echo "Partition already resized"
+    else
+      # Identify the disk
+      ROOT_DEV=$(findmnt -n -o SOURCE /)
+      DISK_DEV=$(lsblk -no pkname ${ROOT_DEV})
+      DISK_PATH="/dev/${DISK_DEV}"
+      
+      echo "Creating partition table on ${DISK_PATH}"
+      
+      # Check if we're using an SSD/USB storage (not the SD card)
+      if [[ "${DISK_DEV}" == "sda" || "${DISK_DEV}" == "nvme0n1" ]]; then
+        # Get the last partition number
+        LAST_PART=$(lsblk -ln -o NAME ${DISK_PATH} | grep "${DISK_DEV}p" | tail -n1 | sed "s/${DISK_DEV}p//")
+        
+        # Create a new partition using all remaining space
+        echo "Creating new partition using remaining space on ${DISK_PATH}"
+        parted -s ${DISK_PATH} mkpart primary ext4 $(parted -s ${DISK_PATH} unit MB print free | grep 'Free Space' | tail -n1 | awk '{print $1}')MB 100%
+        
+        # Calculate new partition number
+        NEW_PART=$((LAST_PART + 1))
+        NEW_PART_PATH="${DISK_PATH}p${NEW_PART}"
+        
+        # Format the new partition as ext4
+        echo "Formatting ${NEW_PART_PATH} as ext4"
+        mkfs.ext4 -L data ${NEW_PART_PATH}
+        
+        # Create mount point and add to fstab
+        mkdir -p /data
+        echo "${NEW_PART_PATH} /data ext4 defaults 0 2" >> /etc/fstab
+        
+        # Mount the new partition
+        mount /data
+        
+        # Mark as done
+        touch /root/resize-done
+        
+        echo "Partition resize completed successfully"
+      else
+        echo "Not an SSD/USB device, skipping partition creation"
+      fi
+    fi
+
+# Reboot after all cloud-init steps to ensure partitions are properly recognized
+power_state:
+  delay: "+1"
+  mode: reboot
+  message: "Rebooting to apply partition changes"
+  timeout: 30
+  condition: True
+  

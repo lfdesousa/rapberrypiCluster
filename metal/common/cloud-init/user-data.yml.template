@@ -1,0 +1,41 @@
+#cloud-config
+hostname: {{NODE}}
+
+# Create default user
+users:
+  - name: ldesousa
+    gecos: Luis de Sousa
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    groups: users,admin
+    ssh_import_id: None
+    lock_passwd: true
+    ssh_authorized_keys:
+      - {{SSH_PUBLIC_KEY}}
+
+# Update and install packages
+package_update: true
+package_upgrade: true
+packages:
+  - vim
+  - htop
+  - tmux
+  - net-tools
+  - iotop
+
+# Set timezone
+timezone: Europe/Zurich
+
+# Configure SSH
+ssh:
+  install-server: true
+  allow-pw: false  # Disable password authentication
+
+write_files:
+  - path: /etc/sysctl.d/99-kubernetes.conf
+    content: |
+      net.bridge.bridge-nf-call-iptables = 1
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.ipv4.ip_forward = 1
+    permissions: '0644'
+    owner: root:root

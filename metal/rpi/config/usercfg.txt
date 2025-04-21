@@ -1,0 +1,6 @@
+# User configuration overrides
+# Uncomment and modify settings as needed
+
+# Example: Overclock settings (use with caution)
+#over_voltage=2
+#arm_freq=1750

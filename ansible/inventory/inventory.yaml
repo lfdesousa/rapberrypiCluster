@@ -1,13 +1,13 @@
 ---
 all:
   children:
-    gateway:
+    security:
       hosts:
-        pi-gateway:
-          ansible_host: 192.168.1.1
+        pi-security-01:
+          ansible_host: 10.0.0.120
           ansible_user: pi
-          node_role: gateway
-          hostname: pi-gateway
+          node_role: security
+          hostname: pi-security-01
           mac_address: "dc:a6:32:xx:xx:xx"
     
     k3s_cluster:
@@ -15,21 +15,21 @@ all:
         k3s_control_plane:
           hosts:
             pi-master-01:
-              ansible_host: 192.168.1.101
+              ansible_host: 10.0.0.101
               ansible_user: pi
               node_role: master
               hostname: pi-master-01
               mac_address: "dc:a6:32:xx:xx:xx"
               
             pi-master-02:
-              ansible_host: 192.168.1.102
+              ansible_host: 10.0.0.102
               ansible_user: pi
               node_role: master
               hostname: pi-master-02
               mac_address: "dc:a6:32:xx:xx:xx"
               
             pi-master-03:
-              ansible_host: 192.168.1.103
+              ansible_host: 10.0.0.103
               ansible_user: pi
               node_role: master
               hostname: pi-master-03
@@ -38,17 +38,24 @@ all:
         k3s_worker_nodes:
           hosts:
             pi-worker-01:
-              ansible_host: 192.168.1.111
+              ansible_host: 10.0.0.111
               ansible_user: pi
               node_role: worker
               hostname: pi-worker-01
               mac_address: "dc:a6:32:xx:xx:xx"
               
             pi-worker-02:
-              ansible_host: 192.168.1.112
+              ansible_host: 10.0.0.112
               ansible_user: pi
               node_role: worker
               hostname: pi-worker-02
+              mac_address: "dc:a6:32:xx:xx:xx"
+              
+            pi-worker-03:
+              ansible_host: 10.0.0.113
+              ansible_user: pi
+              node_role: worker
+              hostname: pi-worker-03
               mac_address: "dc:a6:32:xx:xx:xx"
               
   vars:

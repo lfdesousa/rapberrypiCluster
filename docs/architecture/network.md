@@ -35,7 +35,9 @@ graph TD
     Switch --> Master1 & Master2 & Master3
     Switch --> Worker1 & Worker2 & Worker3
     Switch --> PiSecurity
-   
+    PiSecurity --> Master1 & Master2 & Master3
+    PiSecurity --> Worker1 & Worker2 & Worker3
+
 ```
 
 ## Router Configuration Automation
